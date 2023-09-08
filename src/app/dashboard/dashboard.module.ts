@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AgGridModule } from 'ag-grid-angular';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ProductsService } from './products.service';
 
 @NgModule({
   imports: [
@@ -14,5 +15,6 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
     AgGridModule,
   ],
   declarations: [ProductsComponent, ProductDetailsComponent],
+  providers: [ProductsService],
 })
 export class DashboardModule {}

@@ -4,9 +4,8 @@
   class="ag-theme-balham"
   [columnDefs]="columnDefs"
   [defaultColDef]="defaultColDef"
-  [rowData]="rowData$ | async"
+  [rowData]="productList"
   [animateRows]="true"
   [suppressMenuHide]="true"
-  (gridReady)="onGridReady($event)"
   (cellClicked)="onCellClicked($event)"
 ></ag-grid-angular>
