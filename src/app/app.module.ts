@@ -9,8 +9,10 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
+  declarations: [MainComponent, LoginComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -20,8 +22,8 @@ import { AgGridModule } from 'ag-grid-angular';
     DashboardModule,
     AgGridModule,
     AppRoutingModule,
+    HttpClientModule,
   ],
-  declarations: [MainComponent, LoginComponent],
   bootstrap: [MainComponent],
 })
 export class AppModule {}

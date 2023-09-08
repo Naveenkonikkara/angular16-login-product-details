@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard.routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AgGridModule } from 'ag-grid-angular';
+import { ProductsComponent } from './products/products.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 
 @NgModule({
-  imports: [DashboardRoutingModule, AgGridModule],
-  declarations: [],
+  imports: [
+    DashboardRoutingModule,
+    HttpClientModule,
+    CommonModule,
+    AgGridModule,
+  ],
+  declarations: [ProductsComponent, ProductDetailsComponent],
 })
 export class DashboardModule {}

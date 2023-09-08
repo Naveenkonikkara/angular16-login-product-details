@@ -1,8 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
-import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
+import {
+  CellClickedEvent,
+  ColDef,
+  GridReadyEvent,
+  GridOptions,
+} from 'ag-grid-community';
+import 'ag-grid-enterprise';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'products',
@@ -10,28 +18,51 @@ import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
-  columnDefs = [
+  public columnDefs: ColDef[] = [
     {
-      headerName: 'Make',
       field: 'make',
-      sortable: true,
-      filter: 'agTextColumnFilter',
     },
     {
-      headerName: 'Price',
+      field: 'model',
+    },
+    {
       field: 'price',
-      sortable: true,
-      filter: 'agNumberColumnFilter',
-      cellStyle: { 'text-align': 'right' },
     },
   ];
 
-  rowData = [
-    { make: 'Toyota', price: 35000 },
-    { make: 'Ford', price: 32000 },
-    { make: 'Porsche', price: 72000 },
-  ];
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  // DefaultColDef sets props common to all Columns
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    resizable: true,
+  };
+
+  // Data that gets displayed in the grid
+  public rowData$!: Observable<any[]>;
+
+  // For accessing the Grid's API
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {}
+
+  onGridReady(params: GridReadyEvent) {
+    this.rowData$ = this.http.get<any[]>(
+      'https://www.ag-grid.com/example-assets/row-data.json'
+    );
+  }
+
+  // Example of consuming Grid Event
+  onCellClicked(e: CellClickedEvent): void {
+    console.log('cellClicked', e);
+  }
+
+  // Example using Grid's API
+  clearSelection(): void {
+    this.agGrid.api.deselectAll();
+  }
 }
