@@ -6,6 +6,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductsService } from './products.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { ProductsService } from './products.service';
     HttpClientModule,
     CommonModule,
     AgGridModule,
+    ReactiveFormsModule,
   ],
   declarations: [ProductsComponent, ProductDetailsComponent],
   providers: [ProductsService],

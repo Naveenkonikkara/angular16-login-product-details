@@ -41,15 +41,6 @@ export class ProductsComponent implements OnInit {
     {
       field: 'units',
     },
-    // {
-    //   field: 'make',
-    // },
-    // {
-    //   field: 'model',
-    // },
-    // {
-    //   field: 'price',
-    // },
   ];
 
   // DefaultColDef sets props common to all Columns
@@ -58,9 +49,6 @@ export class ProductsComponent implements OnInit {
     filter: true,
     resizable: true,
   };
-
-  // Data that gets displayed in the grid
-  // public rowData$!: Observable<ProductList>;
 
   // For accessing the Grid's API
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;

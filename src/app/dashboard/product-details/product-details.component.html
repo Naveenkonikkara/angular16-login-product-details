@@ -1,3 +1,27 @@
-<p>
-product-details works!
-</p>
+<div><strong>Product Details</strong></div>
+<div class="form-outline mb-4" *ngIf="!editProduct">
+  <div class="row" *ngFor="let headers of productHeaders">
+    <div class="col-sm-6">{{ headers | uppercase }}</div>
+    <div class="col-sm-6">{{ getProductValue(headers) }}</div>
+  </div>
+</div>
+
+<div class="col-sm-8" *ngIf="editProduct">
+  <form class="product-form" [formGroup]="productForm" (ngSubmit)="onSave()">
+    <div class="form-outline mb-4" *ngFor="let headers of productHeaders">
+      <label class="form-label" for="{{ headers }}">{{
+        headers | uppercase
+      }}</label>
+      <input
+        type="text"
+        id="{{ headers }}"
+        formControlName="{{ headers }}"
+        class="col-sm-4 form-control"
+      />
+    </div>
+    <button class="btn btn-primary mb-4" type="submit">Save</button>
+  </form>
+</div>
+<div *ngIf="!editProduct">
+  <button class="btn btn-primary mb-4" (click)="onEdit()">Edit</button>
+</div>
