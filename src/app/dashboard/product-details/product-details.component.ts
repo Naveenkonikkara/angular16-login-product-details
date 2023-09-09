@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../products.service';
 import { Product, ProductList } from '../../../model/product-list';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'product-details',
@@ -20,10 +21,11 @@ export class ProductDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private productService: ProductsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private http: HttpClient
   ) {
     this.productForm = this.formBuilder.group({
-      id: [{ value: '', disabled: true }],
+      id: [''],
       manufacturing: [''],
       name: [''],
       price: [''],
@@ -62,6 +64,11 @@ export class ProductDetailsComponent implements OnInit {
   onSave() {
     if (this.productForm.valid) {
       console.log('Product Value Changed: ' + this.productForm.value);
+      this.productService
+        .updateProduct(this.productForm.value)
+        .subscribe((data) => {
+          console.log('Update: ' + data);
+        });
     }
   }
 }

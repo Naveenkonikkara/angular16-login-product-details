@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ProductList } from '../../model/product-list';
+import { Product, ProductList } from '../../model/product-list';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +9,11 @@ import { ProductList } from '../../model/product-list';
 export class ProductsService {
   private product$ = new BehaviorSubject<any>({});
   selectedProduct$ = this.product$.asObservable();
-
+  private _jsonURL = '../../assets/JSON/products.json';
   constructor(private http: HttpClient) {}
 
   getAllProducts(): Observable<ProductList> {
-    return this.http.get<ProductList>('../../assets/JSON/products.json');
+    return this.http.get<ProductList>(this._jsonURL);
   }
 
   setProduct(product: any) {
@@ -22,5 +22,9 @@ export class ProductsService {
 
   getProduct(): Observable<any> {
     return this.selectedProduct$;
+  }
+
+  updateProduct(product: Product): Observable<Product> {
+    return this.http.put<Product>(this._jsonURL, product);
   }
 }

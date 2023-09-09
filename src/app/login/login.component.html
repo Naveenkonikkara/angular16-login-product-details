@@ -1,5 +1,6 @@
 <div
   class="d-flex justify-content-center login-form col-sm-4 col-md-6 col-lg-4"
+  *ngIf="!userLoggedIn"
 >
   <form class="user-login" [formGroup]="loginForm" (ngSubmit)="onLogin()">
     <div class="form-outline mb-4">

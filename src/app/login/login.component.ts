@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
     userName: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
-  public submitted = false;
+  public userLoggedIn: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {}
 
@@ -26,8 +26,8 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
     // console.log(this.loginForm.value);
-    this.submitted = true;
     if (this.loginForm.valid) {
+      this.userLoggedIn = true;
       console.log(this.loginForm.value);
       this.router.navigate(['/products/']);
       // localStorage.setItem("user-Data", JSON.stringify(this.loginForm.value));
