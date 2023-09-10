@@ -1,29 +1,51 @@
-<div
-  class="d-flex justify-content-center login-form col-sm-4 col-md-6 col-lg-4"
-  *ngIf="!userLoggedIn"
->
-  <form class="user-login" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <div class="form-outline mb-4">
-      <label class="form-label" for="userName">User Name</label>
-      <input
-        type="text"
-        id="userName"
-        formControlName="userName"
-        class="col-sm-4 form-control"
-        placeholder="Enter User Name"
-      />
-    </div>
-
-    <div class="form-outline mb-4">
-      <label class="form-label" for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        formControlName="password"
-        class="col-sm-4 form-control"
-        placeholder="Enter Password"
-      />
-    </div>
-    <button class="btn btn-primary" type="submit">Login</button>
-  </form>
+<div class="card" *ngIf="!userLoggedIn">
+  <h4 class="card-header">Login</h4>
+  <div class="card-body">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="mb-3">
+        <label class="form-label">User Name</label>
+        <input
+          type="text"
+          formControlName="userName"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && loginfrm.userName.errors }"
+        />
+        <div
+          *ngIf="submitted && loginfrm.userName.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="loginfrm.userName.errors.required">
+            Username is required
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && loginfrm.password.errors }"
+        />
+        <div
+          *ngIf="submitted && loginfrm.password.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="loginfrm.password.errors.required">
+            Password is required
+          </div>
+        </div>
+      </div>
+      <div>
+        <button [disabled]="loading" class="btn btn-primary">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm me-1"
+          ></span>
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
+<button class="btn btn-primary" (click)="onRegister()">Register</button>

@@ -7,6 +7,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductsService } from './products.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { fakeBackendProvider } from '../helpers/fake-backend-interceptor';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
   ],
   declarations: [ProductsComponent, ProductDetailsComponent],
-  providers: [ProductsService],
+  providers: [ProductsService, fakeBackendProvider],
 })
 export class DashboardModule {}

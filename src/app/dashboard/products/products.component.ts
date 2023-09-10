@@ -64,10 +64,12 @@ export class ProductsComponent implements OnInit {
   }
 
   giveAllProducts() {
-    this.productService.getAllProducts().subscribe((res: ProductList) => {
-      console.log(res);
-      this.productList = res;
-    });
+    // this.productService.getAllProducts().subscribe((res: ProductList) => {
+    //   console.log(res);
+    //   this.productList = res;
+    // });
+
+    this.productList = this.productService.getProductList();
   }
 
   // onGridReady(params: GridReadyEvent) {
@@ -78,7 +80,6 @@ export class ProductsComponent implements OnInit {
 
   onCellClicked(cell: CellClickedEvent): void {
     this.router.navigateByUrl('/product/' + cell.value);
-    // this.router.navigateByUrl('/product/' + cell.value, { state: cell.data });
     this.productService.setProduct(cell.data);
   }
 

@@ -9,7 +9,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './helpers/jwt-interceptor';
+import { fakeBackendProvider } from './helpers/fake-backend-interceptor';
 
 @NgModule({
   declarations: [MainComponent, LoginComponent],
@@ -23,6 +25,10 @@ import { HttpClientModule } from '@angular/common/http';
     AgGridModule,
     AppRoutingModule,
     HttpClientModule,
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    fakeBackendProvider,
   ],
   bootstrap: [MainComponent],
 })

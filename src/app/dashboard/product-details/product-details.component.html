@@ -17,6 +17,7 @@
         id="{{ headers }}"
         formControlName="{{ headers }}"
         class="col-sm-4 form-control"
+        [readonly]="headers === 'id'"
       />
     </div>
     <button class="btn btn-primary mb-4" type="submit">Save</button>

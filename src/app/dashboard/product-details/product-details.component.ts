@@ -64,10 +64,17 @@ export class ProductDetailsComponent implements OnInit {
   onSave() {
     if (this.productForm.valid) {
       console.log('Product Value Changed: ' + this.productForm.value);
+      // this.productService
+      //   .updateProduct(this.productForm.value.id, this.productForm.value)
+      //   .subscribe((data) => {
+      //     console.log('Update: ' + data);
+      //   });
+
       this.productService
-        .updateProduct(this.productForm.value)
+        .updateProductList(this.productForm.value.id, this.productForm.value)
         .subscribe((data) => {
           console.log('Update: ' + data);
+          this.router.navigate(['/products/']);
         });
     }
   }
