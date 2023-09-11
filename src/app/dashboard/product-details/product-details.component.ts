@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Event as NavigationEvent,
+  Router,
+} from '@angular/router';
 import { ProductsService } from '../products.service';
 import { Product, ProductList } from '../../../model/product-list';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'product-details',
   templateUrl: './product-details.component.html',
@@ -16,6 +23,7 @@ export class ProductDetailsComponent implements OnInit {
   productHeaders!: any;
   editProduct: boolean = false;
   productForm!: FormGroup;
+  isDirty$!: Observable<boolean>;
 
   constructor(
     private router: Router,
@@ -32,6 +40,8 @@ export class ProductDetailsComponent implements OnInit {
       type: [''],
       units: [''],
     });
+
+    // this.productValueChange();
   }
 
   ngOnInit() {
@@ -44,6 +54,13 @@ export class ProductDetailsComponent implements OnInit {
       this.productHeaders = Object.keys(this.selectedProduct);
       console.log(this.selectedProduct);
     });
+
+    this.isDirty$ = this.productForm.valueChanges.pipe(
+      this.productService.dirtyCheck(this.productService.selectedProduct$)
+    );
+    this.productService.selectedProduct$
+      .pipe(untilDestroyed(this))
+      .subscribe((state) => this.productForm.patchValue(state));
   }
 
   getProductValue(key: string) {
@@ -76,6 +93,12 @@ export class ProductDetailsComponent implements OnInit {
           console.log('Update: ' + data);
           this.router.navigate(['/products/']);
         });
+
+      this.productService.product$.next(this.productForm.value);
     }
   }
+
+  // productValueChange() {
+  //   this.productForm.valueChanges.subscribe((change) => this.productForm);
+  // }
 }

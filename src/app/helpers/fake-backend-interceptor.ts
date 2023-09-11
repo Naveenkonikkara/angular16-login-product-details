@@ -65,7 +65,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       };
 
       localStorage.setItem(usersKey, JSON.stringify(user));
-      return ok();
+      return ok({
+        ...basicDetails(user),
+      });
     }
 
     function saveProduct() {

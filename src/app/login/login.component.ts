@@ -5,6 +5,8 @@ import { first } from 'rxjs/operators';
 import { User } from '../../model/user';
 import { LoginService } from '../services/login.service';
 
+const usersKey = 'angular-16-login-users';
+
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -13,8 +15,11 @@ import { LoginService } from '../services/login.service';
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public userLoggedIn: boolean = false;
-  public loading = false;
-  public submitted = false;
+  public loading: boolean = false;
+  public submitted: boolean = false;
+  public registeredUser: boolean = false;
+  public user!: User | null;
+  public loginError: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +33,14 @@ export class LoginComponent implements OnInit {
       userName: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+
+    this.isRegisteredUser();
+  }
+
+  isRegisteredUser() {
+    this.registeredUser = JSON.parse(localStorage.getItem(usersKey)!)
+      ? true
+      : false;
   }
 
   get loginfrm() {
@@ -36,12 +49,12 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
     this.submitted = true;
-    // console.log(this.loginForm.value);
     if (this.loginForm.invalid) {
       return;
     }
     this.loading = true;
     this.userLoggedIn = true;
+    this.loginError = {};
 
     this.loginService
       .login(this.loginfrm.userName.value, this.loginfrm.password.value)
@@ -51,8 +64,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/products/']);
         },
         error: (error) => {
-          // this.alertService.error(error);
+          this.loginError = error;
           console.log(error);
+          this.loginForm.reset();
           this.loading = false;
         },
       });
@@ -65,6 +79,13 @@ export class LoginComponent implements OnInit {
     };
     this.loginService.register(user).subscribe((res) => {
       console.log(res);
+      alert(
+        'User Registered with Username: ' +
+          user.username +
+          ', Password: ' +
+          user.password
+      );
+      this.registeredUser = true;
     });
   }
 }

@@ -13,14 +13,30 @@
         headers | uppercase
       }}</label>
       <input
+        type="number"
+        id="{{ headers }}"
+        formControlName="{{ headers }}"
+        class="col-sm-4 form-control"
+        [readonly]="headers === 'id'"
+        *ngIf="headers === 'id' || headers === 'price' || headers === 'units'"
+      />
+
+      <input
         type="text"
         id="{{ headers }}"
         formControlName="{{ headers }}"
         class="col-sm-4 form-control"
         [readonly]="headers === 'id'"
+        *ngIf="
+          headers === 'name' ||
+          headers === 'type' ||
+          headers === 'manufacturing'
+        "
       />
     </div>
-    <button class="btn btn-primary mb-4" type="submit">Save</button>
+    <button class="btn btn-primary mb-4" type="submit" *ngIf="isDirty$ | async">
+      Save
+    </button>
   </form>
 </div>
 <div *ngIf="!editProduct">

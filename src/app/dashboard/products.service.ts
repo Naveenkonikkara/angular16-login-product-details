@@ -1,13 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  map,
+  Observable,
+  of,
+  shareReplay,
+  startWith,
+} from 'rxjs';
 import { Product, ProductList } from '../../model/product-list';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  private product$ = new BehaviorSubject<any>({});
+  public product$ = new BehaviorSubject<any>({});
   selectedProduct$ = this.product$.asObservable();
   private _jsonURL = '../../assets/JSON/products.json/';
   private productList = [
@@ -130,4 +139,20 @@ export class ProductsService {
   updateProduct(id: string, product: Product): Observable<Product> {
     return this.http.put<Product>(this._jsonURL + id, product);
   }
+
+  dirtyCheck<U>(source: Observable<U>) {
+    return function <T>(valueChanges: Observable<T>): Observable<boolean> {
+      const isDirty$ = combineLatest([source, valueChanges]).pipe(
+        debounceTime(300),
+        map(([a, b]) => isEqual(a, b) === false),
+        shareReplay({ bufferSize: 1, refCount: true })
+      );
+
+      return isDirty$;
+    };
+  }
+}
+
+function isEqual(a: any, b: any) {
+  return JSON.stringify(a) === JSON.stringify(b);
 }

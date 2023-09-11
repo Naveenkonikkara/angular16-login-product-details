@@ -7,5 +7,6 @@
   [rowData]="productList"
   [animateRows]="true"
   [suppressMenuHide]="true"
+  (gridReady)="onGridReady($event)"
   (cellClicked)="onCellClicked($event)"
 ></ag-grid-angular>

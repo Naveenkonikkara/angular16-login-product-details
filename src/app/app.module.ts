@@ -12,6 +12,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './helpers/jwt-interceptor';
 import { fakeBackendProvider } from './helpers/fake-backend-interceptor';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { DirtyCheckGuard } from './helpers/dirty-check.guard';
 
 @NgModule({
   declarations: [MainComponent, LoginComponent],
@@ -25,10 +27,12 @@ import { fakeBackendProvider } from './helpers/fake-backend-interceptor';
     AgGridModule,
     AppRoutingModule,
     HttpClientModule,
+    NzModalModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider,
+    DirtyCheckGuard,
   ],
   bootstrap: [MainComponent],
 })

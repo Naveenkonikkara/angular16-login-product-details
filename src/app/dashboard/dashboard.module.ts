@@ -8,6 +8,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductsService } from './products.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { fakeBackendProvider } from '../helpers/fake-backend-interceptor';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { fakeBackendProvider } from '../helpers/fake-backend-interceptor';
     CommonModule,
     AgGridModule,
     ReactiveFormsModule,
+    NzModalModule,
   ],
   declarations: [ProductsComponent, ProductDetailsComponent],
   providers: [ProductsService, fakeBackendProvider],

@@ -25,6 +25,7 @@ export class ProductsComponent implements OnInit {
   public columnDefs: ColDef[] = [
     {
       field: 'id',
+      cellDataType: 'number',
     },
     {
       field: 'manufacturing',
@@ -34,12 +35,14 @@ export class ProductsComponent implements OnInit {
     },
     {
       field: 'price',
+      cellDataType: 'number',
     },
     {
       field: 'type',
     },
     {
       field: 'units',
+      cellDataType: 'number',
     },
   ];
 
@@ -72,14 +75,12 @@ export class ProductsComponent implements OnInit {
     this.productList = this.productService.getProductList();
   }
 
-  // onGridReady(params: GridReadyEvent) {
-  //   this.rowData$ = this.http.get<any[]>(
-  //     'https://www.ag-grid.com/example-assets/row-data.json'
-  //   );
-  // }
+  onGridReady(params: GridReadyEvent) {
+    this.giveAllProducts();
+  }
 
   onCellClicked(cell: CellClickedEvent): void {
-    this.router.navigateByUrl('/product/' + cell.value);
+    this.router.navigateByUrl('/product/' + cell.data.id);
     this.productService.setProduct(cell.data);
   }
 

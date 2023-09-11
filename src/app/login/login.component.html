@@ -1,4 +1,4 @@
-<div class="card" *ngIf="!userLoggedIn">
+<div class="card" *ngIf="registeredUser">
   <h4 class="card-header">Login</h4>
   <div class="card-body">
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
@@ -44,8 +44,13 @@
           ></span>
           Login
         </button>
+        <div *ngIf="loginError" class="has-error">
+          {{ loginError.error.message }}
+        </div>
       </div>
     </form>
   </div>
 </div>
-<button class="btn btn-primary" (click)="onRegister()">Register</button>
+<button class="btn btn-primary" (click)="onRegister()" *ngIf="!registeredUser">
+  Register
+</button>
